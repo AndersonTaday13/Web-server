@@ -1,22 +1,20 @@
-const express = require("express");
-const path = require("path");
+import express from "express";
+import path from "path";
 
-const startServer = (options) => {
+export const startServer = (options) => {
   const { port, public_path = "public" } = options;
 
   const app = express();
-  app.use(express.static(path.join(__dirname, public_path)));
+  app.use(express.static(path.join(public_path)));
 
   app.get("*", (req, res) => {
-    const indexPath = path.join(__dirname, "../..", public_path, "index.html");
+    const indexPath = path.join(
+      __dirname + `../../../${public_path}/index.html`
+    );
     res.sendFile(indexPath);
   });
 
   app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });
-};
-
-module.exports = {
-  startServer,
 };
